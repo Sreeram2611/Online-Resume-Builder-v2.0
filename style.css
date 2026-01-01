@@ -1,0 +1,587 @@
+:root {
+  --primary: #2563eb;
+  --bg: #f3f4f6;
+  --surface: #ffffff;
+  --text-main: #1f2937;
+  --text-muted: #6b7280;
+  --border: #e5e7eb;
+  --radius: 12px;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+  --font-sans: 'Inter', sans-serif;
+  --font-serif: 'Merriweather', serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text-main);
+  height: 100vh;
+  overflow: hidden; /* App-like feel */
+}
+
+/* --- Layout --- */
+.app-layout {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  height: 100vh;
+}
+
+/* --- Mobile Bottom Nav --- */
+.mobile-nav { display: none; }
+
+/* --- Editor Panel (Left) --- */
+.editor-panel {
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  z-index: 10;
+}
+
+.editor-header h1 { font-size: 20px; margin: 0; display: flex; align-items: center; gap: 8px; }
+.logo { width: 24px; color: var(--primary); }
+.muted { color: var(--text-muted); font-size: 13px; margin: 4px 0 0 0; }
+.divider { border: 0; height: 1px; background: var(--border); margin: 0; }
+
+/* Form Elements */
+.form-section h2 { font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 12px; }
+.input-group { margin-bottom: 14px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+label { display: block; font-size: 12px; font-weight: 500; margin-bottom: 6px; color: var(--text-main); }
+input, textarea, select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 14px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: #f9fafb;
+}
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+textarea { resize: vertical; min-height: 80px; }
+
+/* Photo Uploader */
+.photo-uploader {
+  border: 2px dashed var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  position: relative;
+  background: #f9fafb;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.photo-uploader:hover { border-color: var(--primary); background: #eff6ff; }
+.photo-uploader input { display: none; }
+.upload-ui { display: flex; flex-direction: column; gap: 4px; align-items: center; font-size: 12px; color: var(--text-muted); }
+.icon { font-size: 20px; }
+#photo-preview-mini { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; margin: 0 auto; display: block; border: 2px solid white; box-shadow: var(--shadow); }
+.btn-icon { position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.1); border: 0; border-radius: 50%; width: 20px; height: 20px; cursor: pointer; color: #555; }
+.hidden { display: none !important; }
+
+/* Dynamic List (Experience) */
+.exp-item-form {
+  background: white;
+  border: 1px solid var(--border);
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  position: relative;
+}
+.exp-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
+.btn.remove { color: #ef4444; background: none; border: none; font-size: 11px; cursor: pointer; padding: 0; }
+
+/* Templates Selector */
+.template-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
+.t-card { cursor: pointer; position: relative; }
+.t-card input { position: absolute; opacity: 0; }
+.t-preview {
+  height: 60px; background: white; border: 1px solid var(--border); border-radius: 8px;
+  display: flex; align-items: center; justify-content: center; font-weight: bold; color: #ccc; font-size: 20px;
+  transition: all 0.2s;
+}
+.t-card span { font-size: 12px; display: block; text-align: center; margin-top: 4px; color: var(--text-muted); }
+.t-card input:checked + .t-preview { border-color: var(--primary); color: var(--primary); box-shadow: 0 0 0 2px rgba(37,99,235,0.2); }
+
+/* Color Picker */
+.color-picker { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+#accent-color { width: 40px; height: 40px; padding: 0; border: 0; background: none; cursor: pointer; }
+.presets { display: flex; gap: 8px; }
+.c-swatch { width: 24px; height: 24px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.1); background: var(--c); cursor: pointer; padding: 0; transition: transform 0.2s; }
+.c-swatch:hover { transform: scale(1.1); }
+
+/* Buttons */
+.btn { padding: 10px 16px; border-radius: 8px; border: 0; font-weight: 600; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; transition: transform 0.1s; }
+.btn:active { transform: translateY(1px); }
+.btn.primary { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(37,99,235,0.3); }
+.btn.outline { background: transparent; border: 1px solid var(--border); color: var(--text-main); }
+.btn.small { padding: 6px 12px; font-size: 12px; }
+.btn.text-only { background: none; color: var(--text-muted); width: 100%; margin-top: 10px; }
+.action-row { display: grid; grid-template-columns: 80px 1fr; gap: 10px; }
+
+/* --- Preview Container (Right) --- */
+.preview-container {
+  background: #e2e4e9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.preview-toolbar { 
+  margin-bottom: 16px; display: flex; justify-content: space-between; width: 100%; max-width: 800px; color: var(--text-muted); font-size: 13px; font-weight: 500;
+}
+
+.resume-wrapper {
+  background: white;
+  width: 100%;
+  max-width: 210mm; /* A4 Width */
+  min-height: 297mm; /* A4 Height */
+  box-shadow: var(--shadow-lg);
+  margin-bottom: 40px;
+  transform-origin: top center;
+  /* CSS Scale done via JS for zoom */
+}
+
+/* =========================================
+   RESUME TEMPLATE STYLES (The Core Logic)
+   ========================================= */
+
+#resume-root {
+  padding: 40px;
+  box-sizing: border-box;
+  color: #111;
+  line-height: 1.5;
+  min-height: 100%;
+  --r-accent: var(--primary);
+}
+
+/* Common Typography within Resume */
+#resume-root h1 { font-size: 28px; font-weight: 700; margin: 0 0 4px 0; }
+#resume-root p { margin: 0; }
+#resume-root h3 { font-size: 14px; text-transform: uppercase; border-bottom: 2px solid #eee; padding-bottom: 6px; margin: 20px 0 12px 0; letter-spacing: 0.05em; color: var(--r-accent); }
+.tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
+.tag-cloud span { background: #f3f4f6; padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: 600; color: #4b5563; }
+.exp-item { margin-bottom: 16px; }
+.exp-item h4 { margin: 0; font-size: 15px; font-weight: 700; }
+.exp-item .company { color: #555; font-weight: 500; }
+.exp-item .date { font-size: 12px; color: #888; display: block; margin-bottom: 4px; }
+.exp-item p { font-size: 13px; color: #333; white-space: pre-line; }
+.resume-photo-img { width: 100%; height: 100%; object-fit: cover; }
+.sep { margin: 0 6px; color: #ccc; }
+
+/* 1. CLASSIC TEMPLATE */
+.resume.classic .r-header { display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #eee; padding-bottom: 20px; margin-bottom: 20px; }
+.resume.classic .header-photo { width: 80px; height: 80px; border-radius: 50%; overflow: hidden; display: block; }
+.resume.classic .r-sidebar { display: none; } /* Sidebar hidden in classic */
+
+/* 2. MODERN TEMPLATE */
+.resume.modern .r-header { display: flex; justify-content: space-between; align-items: flex-start; background: #f9fafb; margin: -40px -40px 20px -40px; padding: 40px; border-bottom: 4px solid var(--r-accent); }
+.resume.modern .header-photo { width: 100px; height: 100px; border-radius: 8px; overflow: hidden; display: block; border: 4px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+.resume.modern h1 { color: var(--r-accent); }
+.resume.modern .r-sidebar { display: none; }
+
+/* 3. CREATIVE TEMPLATE (Sidebar Layout) */
+.resume.creative {
+  display: grid;
+  grid-template-columns: 200px 1fr; /* Sidebar | Content */
+  grid-template-areas: "side content";
+  padding: 0; /* Remove default padding */
+  height: 100%;
+}
+.resume.creative .r-sidebar { 
+  grid-area: side; 
+  background: #1f2937; 
+  color: white; 
+  padding: 40px 20px; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  text-align: center;
+}
+.resume.creative .sidebar-photo { width: 120px; height: 120px; border-radius: 50%; overflow: hidden; margin-bottom: 20px; display: block; border: 4px solid rgba(255,255,255,0.2); }
+.resume.creative .r-body { grid-area: content; padding: 40px; }
+.resume.creative .header-photo { display: none; } /* Hide header photo */
+.resume.creative .r-header { margin-bottom: 20px; }
+.resume.creative h1 { font-size: 32px; }
+.resume.creative h3 { color: var(--r-accent); border-color: var(--r-accent); }
+/* In creative, we might move contact info to sidebar via JS or just duplicate markup. Here we rely on CSS hiding header contacts if needed, but for simplicity, we keep header inside content area. */
+
+/* 4. MINIMAL TEMPLATE */
+.resume.minimal { text-align: center; }
+.resume.minimal .r-header { margin-bottom: 30px; }
+.resume.minimal .header-photo { width: 90px; height: 90px; border-radius: 50%; margin: 0 auto 16px auto; overflow: hidden; display: block; }
+.resume.minimal .contact-row { justify-content: center; }
+.resume.minimal .r-sidebar { display: none; }
+.resume.minimal h3 { text-align: center; border: 0; position: relative; display: inline-block; }
+.resume.minimal h3::after { content:''; display: block; width: 40px; height: 2px; background: var(--r-accent); margin: 4px auto 0 auto; }
+.resume.minimal .exp-item { text-align: left; } /* Reset text align for body */
+.resume.minimal .tag-cloud { justify-content: center; }
+
+
+/* --- Mobile Responsive Enhancements --- */
+@media (max-width: 900px) {
+  .app-layout { display: block; position: relative; }
+  
+  .mobile-nav { 
+    display: flex; justify-content: space-between; align-items: center; 
+    padding: 12px 20px; background: white; border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 50; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+  .mobile-brand { font-weight: 700; font-size: 18px; color: var(--primary); }
+
+  .editor-panel { 
+    width: 100%; 
+    height: calc(100vh - 60px); 
+    border-right: none; 
+    padding-bottom: 100px; /* Space for FAB or footer */
+  }
+
+  /* The Preview Panel becomes a "Modal" on mobile */
+  .preview-container {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: #e2e4e9;
+    z-index: 100;
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    padding: 10px;
+  }
+  .preview-container.open { transform: translateY(0); }
+  
+  .preview-toolbar { padding: 10px; background: white; border-radius: 8px; margin-bottom: 10px; box-shadow: var(--shadow); }
+  .mobile-only { display: block; }
+  
+  .resume-wrapper {
+    /* Scale down resume on mobile to fit screen */
+    transform: scale(0.45); 
+    transform-origin: top center;
+    margin-bottom: -150%; /* Counteract scaling whitespace */
+  }
+  
+  .editor-header { display: none; } /* Save space on mobile */
+}
+
+@media (min-width: 901px) {
+  .mobile-only { display: none; }
+}
+
+@media print {
+  body * { visibility: hidden; }
+  #resume-root, #resume-root * { visibility: visible; }
+  #resume-root { position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 0; box-shadow: none; }
+  .resume-wrapper { transform: none !important; margin: 0 !important; box-shadow: none; }
+}
+/* --- Branding Header --- */
+.editor-header {
+  padding: 0 0 20px 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 20px;
+}
+
+.brand-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-circle {
+  width: 40px;
+  height: 40px;
+  background: var(--primary);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
+}
+
+.logo-icon { width: 24px; height: 24px; }
+
+.brand-text h1 {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.2;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brand-text .muted {
+  font-size: 12px;
+  margin: 2px 0 0 0;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.badge {
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  color: #fff;
+  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 800;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.1);
+}
+
+/* --- App Footer --- */
+.app-footer {
+  margin-top: 40px;
+  padding-top: 20px;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.footer-divider {
+  height: 1px;
+  background: var(--border);
+  margin-bottom: 20px;
+}
+
+.footer-branding {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.footer-credit {
+  font-size: 12px;
+  margin: 6px 0;
+}
+
+.footer-links {
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.footer-links a {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+/* Fix Editor Panel Scrolling */
+.editor-panel {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  height: 100vh;
+  overflow: hidden; /* Prevent double scrollbars */
+}
+
+/* The header stays pinned top, content scrolls */
+.editor-header {
+  flex-shrink: 0;
+}
+
+.editor-content {
+  flex-grow: 1;
+  overflow-y: auto; /* Scroll only the form/footer */
+  padding-right: 4px; /* Space for scrollbar */
+  padding-bottom: 40px;
+}
+/* --- Global & Layout Fixes --- */
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text-main);
+  /* Use dvh to account for mobile browser bars */
+  height: 100vh;
+  height: 100dvh; 
+  overflow: hidden; 
+}
+
+.app-layout {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  height: 100%; /* Fill body height */
+  overflow: hidden;
+}
+
+/* --- Editor Panel (Left) --- */
+.editor-panel {
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  /* Flex column is crucial for internal scrolling */
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  z-index: 10;
+}
+
+/* Header stays fixed at top */
+.editor-header {
+  flex-shrink: 0; /* Never shrink */
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+/* Content area scrolls independently */
+.editor-content {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 24px;
+  /* Crucial: Add extra bottom padding so footer isn't tight against edge */
+  padding-bottom: 100px; 
+  -webkit-overflow-scrolling: touch; /* Smooth scroll on iOS */
+}
+
+/* --- Mobile Responsive Fixes --- */
+@media (max-width: 900px) {
+  .app-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh; /* Force layout to respect browser UI */
+  }
+  
+  .mobile-nav { 
+    flex-shrink: 0; /* Navbar stays fixed size */
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 12px 20px; 
+    background: white; 
+    border-bottom: 1px solid var(--border);
+    z-index: 50; 
+  }
+
+  .editor-panel { 
+    width: 100%; 
+    border-right: none; 
+    /* Take remaining height after navbar */
+    height: auto; 
+    flex: 1; 
+  }
+
+  .editor-content {
+    /* Extra padding on mobile to clear safe areas */
+    padding-bottom: 150px; 
+  }
+
+  /* Footer adjustments for mobile */
+  .app-footer {
+    padding-bottom: 20px; 
+  }
+}
+/* --- Footer Updates --- */
+.app-footer {
+  margin-top: auto; /* Pushes to bottom */
+  padding-top: 20px;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.footer-divider {
+  height: 1px;
+  background: var(--border);
+  margin-bottom: 20px;
+  opacity: 0.6;
+}
+
+/* Developer Name Link */
+.dev-link {
+  color: var(--text-main);
+  font-weight: 700;
+  text-decoration: none;
+  border-bottom: 1px dotted var(--text-muted);
+  transition: all 0.2s;
+}
+
+.dev-link:hover {
+  color: var(--primary);
+  border-bottom: 1px solid var(--primary);
+}
+
+/* Footer Links Container */
+.footer-links {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column; /* Stack v1 and legal on mobile */
+  align-items: center;
+  gap: 12px;
+}
+
+/* The v1.0 Button/Badge */
+.v1-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #fff;
+  border: 1px solid var(--border);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-main);
+  text-decoration: none;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  transition: transform 0.1s, border-color 0.2s;
+}
+
+.v1-badge:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  transform: translateY(-1px);
+}
+
+/* Legal Links (Privacy/Terms) */
+.legal-links {
+  display: flex;
+  gap: 12px;
+  font-size: 11px;
+}
+
+.legal-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.legal-links a:hover {
+  text-decoration: underline;
+}
+
+.sep { opacity: 0.3; }
+
+/* Desktop adjustments */
+@media (min-width: 900px) {
+  .footer-links {
+    flex-direction: row; /* Side by side on desktop */
+    justify-content: center;
+    gap: 20px;
+  }
+}

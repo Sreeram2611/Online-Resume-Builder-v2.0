@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+  <title>Resume Studio Pro</title>
+  <meta name="description" content="Build professional resumes instantly in your browser.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav class="mobile-nav">
+    <div class="mobile-brand-group">
+      <div class="logo-circle small">
+        <svg viewBox="0 0 24 24" class="logo-icon" fill="currentColor"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+      </div>
+      <div class="brand-text-mobile">
+        <span class="brand-name">Resume Studio v2.0</span>
+        <span class="badge">PRO</span>
+      </div>
+    </div>
+
+    <button id="mobile-preview-btn" class="btn primary small">
+      <span class="btn-text">Preview</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+    </button>
+  </nav>
+
+  <div class="app-layout">
+    
+    <aside class="editor-panel">
+      
+      <header class="editor-header">
+        <div class="brand-wrapper">
+          <div class="logo-circle">
+            <svg viewBox="0 0 24 24" class="logo-icon" fill="currentColor"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+          </div>
+          <div class="brand-text">
+            <h1>Resume Studio v2.0 <span class="badge">PRO</span></h1>
+            <p class="muted">Professional Resume Builder</p>
+          </div>
+        </div>
+      </header>
+
+      <div class="editor-content">
+        <form id="resume-form" onsubmit="return false;">
+          
+          <section class="form-section">
+            <h2>Personal Details</h2>
+            <div class="input-group">
+              <label>Full Name</label>
+              <input id="name" type="text" placeholder="e.g. Alex Morgan" />
+            </div>
+            <div class="input-group">
+              <label>Job Title</label>
+              <input id="title" type="text" placeholder="e.g. Senior Product Designer" />
+            </div>
+            <div class="grid-2">
+              <div class="input-group">
+                <label>Email</label>
+                <input id="email" type="email" placeholder="alex@example.com" />
+              </div>
+              <div class="input-group">
+                <label>Phone</label>
+                <input id="phone" type="tel" placeholder="+1 555 000 0000" />
+              </div>
+            </div>
+            <div class="input-group">
+              <label>Website / Link</label>
+              <input id="website" type="url" placeholder="linkedin.com/in/alex" />
+            </div>
+            <div class="input-group">
+              <label>Professional Summary</label>
+              <textarea id="summary" rows="4" placeholder="Briefly describe your professional background..."></textarea>
+            </div>
+            
+            <div class="input-group">
+              <label>Profile Photo</label>
+              <div class="photo-uploader" id="photo-drop-zone">
+                <input id="photo-input" type="file" accept="image/*" />
+                <div class="upload-ui">
+                  <span class="icon">📷</span>
+                  <span id="upload-text">Tap to upload photo</span>
+                </div>
+                <img id="photo-preview-mini" class="hidden" alt="Preview" />
+                <button id="remove-photo" type="button" class="btn-icon hidden" title="Remove photo">×</button>
+              </div>
+            </div>
+          </section>
+
+          <hr class="divider">
+
+          <section class="form-section">
+            <div class="section-head">
+              <h2>Experience</h2>
+              <button id="add-exp" class="btn small outline">+ Add</button>
+            </div>
+            <div id="experience-list" class="dynamic-list"></div>
+          </section>
+
+          <hr class="divider">
+
+          <section class="form-section">
+            <h2>Skills</h2>
+            <div class="input-group">
+              <label>Skills (comma separated)</label>
+              <input id="skills" type="text" placeholder="Figma, React, Node.js, Leadership" />
+            </div>
+          </section>
+
+          <hr class="divider">
+
+          <section class="form-section">
+            <h2>Design & Export</h2>
+            
+            <label class="sub-label">Template Style</label>
+            <div class="template-grid" id="template-selector">
+              <label class="t-card">
+                <input type="radio" name="template" value="classic" checked />
+                <div class="t-preview t-classic">Aa</div>
+                <span>Classic</span>
+              </label>
+              <label class="t-card">
+                <input type="radio" name="template" value="modern" />
+                <div class="t-preview t-modern">Aa</div>
+                <span>Modern</span>
+              </label>
+              <label class="t-card">
+                <input type="radio" name="template" value="creative" />
+                <div class="t-preview t-creative">Aa</div>
+                <span>Creative</span>
+              </label>
+              <label class="t-card">
+                <input type="radio" name="template" value="minimal" />
+                <div class="t-preview t-minimal">Aa</div>
+                <span>Minimal</span>
+              </label>
+            </div>
+
+            <label class="sub-label">Accent Color</label>
+            <div class="color-picker">
+              <input type="color" id="accent-color" value="#2563eb">
+              <div class="presets">
+                <button class="c-swatch" style="--c:#2563eb" data-c="#2563eb"></button>
+                <button class="c-swatch" style="--c:#059669" data-c="#059669"></button>
+                <button class="c-swatch" style="--c:#7c3aed" data-c="#7c3aed"></button>
+                <button class="c-swatch" style="--c:#db2777" data-c="#db2777"></button>
+                <button class="c-swatch" style="--c:#111827" data-c="#111827"></button>
+              </div>
+            </div>
+
+            <label class="sub-label">Typography</label>
+            <select id="font-select" class="select-box">
+              <option value="inter">Inter (Modern Sans)</option>
+              <option value="merri">Merriweather (Serif)</option>
+              <option value="poppins">Poppins (Bold Sans)</option>
+            </select>
+            
+            <div class="action-row">
+              <select id="export-format" class="select-box small">
+                <option value="pdf">PDF</option>
+                <option value="doc">Word (.doc)</option>
+              </select>
+              <button id="download-btn" class="btn primary full">Download Resume</button>
+            </div>
+            <button id="reset-btn" class="btn text-only center">Reset to Defaults</button>
+          </section>
+        </form>
+        
+
+       <footer class="app-footer">
+          <div class="footer-divider"></div>
+          
+          <div class="footer-branding">
+            <span>&copy; <span id="year">2025</span> Resume Studio</span>
+            <span class="dot">•</span>
+            <span>v2.0 Pro</span>
+          </div>
+
+          <p class="footer-credit">
+            Developed by 
+            <a href="https://www.linkedin.com/in/sreeramsp/" target="_blank" class="dev-link">
+              Sreeram Palani
+            </a>
+          </p>
+
+          <div class="footer-links">
+            <a href="https://superlative-otter-2e2c20.netlify.app/" target="_blank" class="v1-badge">
+              Visit Version 1.0 Site ↗
+            </a>
+            
+            <div class="legal-links">
+              <a href="#">Privacy</a>
+              <span class="sep">•</span>
+              <a href="#">Terms</a>
+            </div>
+          </div>
+        </footer>
+
+      </div> </aside>
+
+
+    <main class="preview-container" id="preview-container">
+      <div class="preview-toolbar">
+        <span class="label">Live Preview</span>
+        <div class="zoom-controls">
+          <button id="close-mobile-preview" class="btn small outline mobile-only">Close</button>
+        </div>
+      </div>
+
+      <div class="resume-wrapper">
+        <div id="resume-root" class="resume classic">
+          
+          <div class="r-sidebar">
+             <div class="photo-box sidebar-photo hidden">
+               <img src="" class="resume-photo-img" alt="Profile" />
+             </div>
+             <div class="sidebar-contact">
+               </div>
+          </div>
+
+          <header class="r-header">
+            <div class="photo-box header-photo hidden">
+              <img src="" class="resume-photo-img" alt="Profile" />
+            </div>
+            <div class="header-text">
+              <h1 id="r-name">Your Name</h1>
+              <p id="r-title">Job Title</p>
+              <div class="contact-row">
+                <span id="r-email">email@example.com</span>
+                <span class="sep">•</span>
+                <span id="r-phone">123-456-7890</span>
+                <span class="sep">•</span>
+                <span id="r-website">portfolio.com</span>
+              </div>
+            </div>
+          </header>
+
+          <div class="r-body">
+            <section class="r-section">
+              <h3>Profile</h3>
+              <p id="r-summary">Summary goes here...</p>
+            </section>
+
+            <section class="r-section">
+              <h3>Experience</h3>
+              <div id="r-experience"></div>
+            </section>
+
+            <section class="r-section">
+              <h3>Skills</h3>
+              <div id="r-skills" class="tag-cloud"></div>
+            </section>
+          </div>
+
+        </div>
+      </div>
+    </main>
+
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
